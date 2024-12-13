@@ -252,16 +252,16 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 			else
 				broadcast_status = 0;
 		}
-		else if (broadcast_status == 1)
+		if (broadcast_status == 1)
 		{
-			if(rxdata[0] == 0x02)
+			if(rxdata[1] == 0x02)
 				broadcast_status = 2;
 			else
 				broadcast_status = 0;
 		}
-		else if(broadcast_status == 2)
+		if(broadcast_status == 2)
 		{
-			if(rxdata[0] == 0x6B){
+			if(rxdata[2] == 0x6B){
 				broadcast_status = 0;
 				broadcast_flag = 1;
 			}

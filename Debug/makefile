@@ -72,8 +72,8 @@ all: main-build
 main-build: Gongxun_Taolin.elf secondary-outputs
 
 # Tool invocations
-Gongxun_Taolin.elf Gongxun_Taolin.map: $(OBJS) $(USER_OBJS) G:\STM32WorkSpace\Gongxun_Taolin\STM32H723VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Gongxun_Taolin.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"G:\STM32WorkSpace\Gongxun_Taolin\STM32H723VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Gongxun_Taolin.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Gongxun_Taolin.elf Gongxun_Taolin.map: $(OBJS) $(USER_OBJS) E:\STM32WorkSpace\Gongxun_Taolin\STM32H723VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Gongxun_Taolin.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"E:\STM32WorkSpace\Gongxun_Taolin\STM32H723VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Gongxun_Taolin.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

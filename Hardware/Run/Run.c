@@ -89,10 +89,9 @@ bool Move_Line(u16 speed, u8 acc, u32 length)
 	Emm_V5_Pos_Control(4, 0, speed, acc, length, 0, true);
 	// 触发多机同步开始运动
 	Emm_V5_Synchronous_motion();
-	HAL_Delay(50);
+	HAL_Delay(1000);
 	while(broadcast_flag == 0){
 		// 在broadcast_flag = 1时跳出去
-		HAL_Delay(200);
 		// 底盘步进电机移动
 		Emm_V5_Pos_Control(1, 0, speed, acc, length, 0, true);
 		Emm_V5_Pos_Control(2, 0, speed, acc, length, 0, true);
@@ -123,10 +122,9 @@ bool Move_Left(u16 speed, u8 acc, u32 length)
 	Emm_V5_Pos_Control(4, 0, speed, acc, length, 0, true);
 	// 触发多机同步开始运动
 	Emm_V5_Synchronous_motion();
-	HAL_Delay(50);
+	HAL_Delay(1000);
 	while(broadcast_flag == 0){
 		// 在broadcast_flag = 1时跳出去
-		HAL_Delay(200);
 		// 底盘步进电机移动
 		Emm_V5_Pos_Control(1, 1, speed, acc, length, 0, true);
 		Emm_V5_Pos_Control(2, 0, speed, acc, length, 0, true);
@@ -158,10 +156,9 @@ bool Move_Back(u16 speed, u8 acc, u32 length)
 	Emm_V5_Pos_Control(4, 1, speed, acc, length, 0, true);
 	// 触发多机同步开始运动
 	Emm_V5_Synchronous_motion();
-	HAL_Delay(50);
+	HAL_Delay(1000);
 	while(broadcast_flag == 0){
 		// 在broadcast_flag = 1时跳出去
-		HAL_Delay(200);
 		// 底盘步进电机移动
 		Emm_V5_Pos_Control(1, 1, speed, acc, length, 0, true);
 		Emm_V5_Pos_Control(2, 1, speed, acc, length, 0, true);
@@ -193,10 +190,9 @@ bool Move_fanxuzhuan(u16 speed, u8 acc, u32 length)
 	Emm_V5_Pos_Control(4, 1, speed, acc, length, 0, true);
 	// 触发多机同步开始运动
 	Emm_V5_Synchronous_motion();
-	HAL_Delay(50);
+	HAL_Delay(1000);
 	while(broadcast_flag == 0){
 		// 在broadcast_flag = 1时跳出去
-		HAL_Delay(200);
 		// 底盘步进电机移动
 		Emm_V5_Pos_Control(1, 1, speed, acc, length, 0, true);
 		Emm_V5_Pos_Control(2, 0, speed, acc, length, 0, true);
@@ -266,10 +262,10 @@ bool Move_Right(u16 speed, u8 acc, u32 length)
 	Emm_V5_Pos_Control(4, 1, speed, acc, length, 0, true);
 	// 触发多机同步开始运动
 	Emm_V5_Synchronous_motion();
-	HAL_Delay(50);
+	HAL_Delay(1000);
 	while(broadcast_flag == 0){
 		// 在broadcast_flag = 1时跳出去
-		HAL_Delay(200);
+//		HAL_Delay(200);
 		// 底盘步进电机移动
 		Emm_V5_Pos_Control(1, 0, speed, acc, length, 0, true);
 		Emm_V5_Pos_Control(2, 1, speed, acc, length, 0, true);
@@ -319,10 +315,10 @@ bool Move_zhengxuzhuan(u16 speed, u8 acc, u32 length)
 	Emm_V5_Pos_Control(4, 0, speed, acc, length, 0, true);
 	// 触发多机同步开始运动
 	Emm_V5_Synchronous_motion();
-	HAL_Delay(50);
+	HAL_Delay(1000);
 	while(broadcast_flag == 0){
 		// 在broadcast_flag = 1时跳出去
-		HAL_Delay(200);
+//		HAL_Delay(200);
 		// 底盘步进电机移动
 		Emm_V5_Pos_Control(1, 0, speed, acc, length, 0, true);
 		Emm_V5_Pos_Control(2, 1, speed, acc, length, 0, true);
