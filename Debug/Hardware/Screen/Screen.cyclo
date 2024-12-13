@@ -1,4 +1,4 @@
 ../Hardware/Screen/Screen.c:37:6:Action_Show	1
-../Hardware/Screen/Screen.c:60:6:QR_Show	2
-../Hardware/Screen/Screen.c:116:6:Point_Show	3
-../Hardware/Screen/Screen.c:152:6:Check_Flag	16
+../Hardware/Screen/Screen.c:60:6:QR_Show	1
+../Hardware/Screen/Screen.c:112:6:Point_Show	2
+../Hardware/Screen/Screen.c:148:6:Check_Flag	16

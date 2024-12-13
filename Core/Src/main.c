@@ -71,8 +71,7 @@ uint8_t Joy_data = 0;
 uint8_t HwtData;
 // TX2 接收数据变量
 uint8_t aRxBuffer = 0;
-char RxBuffer[RXBUFFERSIZE] =
-{ 0 };
+char RxBuffer[RXBUFFERSIZE] ={ 0 };
 uint8_t Uart10_Rx_Cnt = 0;
 float x = .0;
 float y = .0;
@@ -80,8 +79,7 @@ char Point_Flag = 0;
 
 // 调试过程�?,屏蔽二维码输�?
 //char QR_data[6] = { 0, 0, 0, 0, 0, 0 };
-int QR_data[6] =
-{ 1, 2, 3, 1, 2, 3 };
+int QR_data[6] = { 1, 2, 3, 1, 2, 3 };
 char tx2_empty_recv_cnt = 0; //tx2未检测到目标物体时返回的标志的计数器，在接收到正常坐标时应该清零											ttxQWQ534
 // PID调整目标�?
 float x_goal, y_goal, a_goal;
@@ -94,8 +92,8 @@ int colour;
 int wuliao_falg;
 
 // 调试过程�?,屏蔽二维码输�?
-//int QR_Flag = 0;
-int QR_Flag = 1;
+int QR_Flag = 0;
+//int QR_Flag = 1;
 
 // TX2使能标志�?, 暂时忽略TX2输入
 bool TX2_ENABLE = false;
@@ -213,12 +211,12 @@ int main(void)
 		{
 			Ready_Flag = 0;
 			Check_Status();
-
 		}
 // 		�?测发车标志位
 		if (System_Flag == 1)
 		{
 			System_Flag = 0;
+
 //			向TX2发�?�字符串 "e1f"�?始执行程�?
 			if (TX2_ENABLE == true)
 				HAL_UART_Transmit(&huart10, (uint8_t*) "e1f", sizeof("elf") - 1,
@@ -243,6 +241,9 @@ int main(void)
 					// 左移完成�?,向前移动,同时将机械臂调整为扫码姿�?
 					Start();
 					flag = 1;
+					HAL_UART_Transmit(&huart10, (uint8_t*) "flag = ", sizeof("flag = \n") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "1", sizeof("1") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "\n", sizeof("\n") - 1,0xffff);
 					break;
 				case 1:  //离开扫码�?,进入暂存区抓取物�?
 					// 向前移动,非阻�?
@@ -254,37 +255,40 @@ int main(void)
 						temp = Move_Line(RunSpeed, RunAcc, 10500);
 					}
 					HAL_UART_Transmit(&huart10, (uint8_t*) "确认接收\n", sizeof("确认接收\n") - 1,0xffff);
-					// Choke_Flag = true说明当前底盘步进电机被阻�?
-					// TODO:其实我感觉这个while没有�?, 但是也不会影响什�?, 单纯看着占位�?, �?测完没有用后可以删掉这里
-					while (Choke_Flag == true)
-					{
-						;
-					}
-					//	等待TX2返回物料坐标点信�?
-					if (TX2_ENABLE == true)
-					{
-						while (Point_Flag != 1)
-						{
-							;
-						}
-					}
 					// TODO:调试,根据TX2返回坐标点信息进行车身调�?,待物料稳定后抓取物料
 					// 这里是否�?要先根据Action进行�?次坐标的调整? x:150 y:1450
 					HAL_UART_Transmit(&huart10, (uint8_t*) "进入PID调节\n", sizeof("进入PID调节\n") - 1,0xffff);
-					Move_Action_Nopid_Left_Ctrl(150, 1450);
+					bool action_temp = Move_Action_Nopid_Left_Ctrl(150, 1450);
+					HAL_Delay(50);
+					while(action_temp == false)
+					{
+						HAL_Delay(10);
+						action_temp = Move_Action_Nopid_Left_Ctrl(150, 1450);
+					}
 					HAL_UART_Transmit(&huart10, (uint8_t*) "我调完辣\n", sizeof("我调完辣\n") - 1,0xffff);
+					//	等待TX2返回物料坐标点信�?
+//					if (TX2_ENABLE == true)
+//					{
+//						while (Point_Flag != 1)
+//						{
+//							;
+//						}
+//					}
 //					Frist_Grab_Wuliao();
 					flag = 2;
+					HAL_UART_Transmit(&huart10, (uint8_t*) "flag = ", sizeof("flag = \n") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "2", sizeof("2") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "\n", sizeof("\n") - 1,0xffff);
 					break;
 				case 2:  // 离开原料�?,进入十字�?
 					HAL_UART_Transmit(&huart10, (uint8_t*) "物料抓完了,我走了\n", sizeof("物料抓完了,我走了\n") - 1,0xffff);
 					Move_TO_jianzhi1(4500, 4335);
 					// 车身状�?�回滚为爪子向内的状�?
-					Roll_Status();
-					HAL_Delay(50);
+//					Roll_Status();
+//					HAL_Delay(50);
 					// 根据Action返回的坐标点进行校准
 					HAL_UART_Transmit(&huart10, (uint8_t*) "进入PID调节\n", sizeof("进入PID调节\n") - 1,0xffff);
-					bool action_temp = Move_Action_Nopid_Forward_Ctrl(160, 1070);
+					 action_temp = Move_Action_Nopid_Forward_Ctrl(160, 1070);
 					HAL_Delay(50);
 					while(action_temp == false)
 					{
@@ -293,6 +297,9 @@ int main(void)
 					}
 					HAL_UART_Transmit(&huart10, (uint8_t*) "我调完辣\n", sizeof("我调完辣\n") - 1,0xffff);
 					flag = 3;
+					HAL_UART_Transmit(&huart10, (uint8_t*) "flag = ", sizeof("flag = \n") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "3", sizeof("3") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "\n", sizeof("\n") - 1,0xffff);
 					break;
 				case 3:    // 离开十字区域,进入暂存�?
 //					BUG:�?90度变成转45�?,但是单独拉出来没有问�??
@@ -308,6 +315,9 @@ int main(void)
 					// TODO: 延时�?要修�?
 					HAL_Delay(500);
 					flag = 4;
+					HAL_UART_Transmit(&huart10, (uint8_t*) "flag = ", sizeof("flag = \n") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "4", sizeof("4") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "\n", sizeof("\n") - 1,0xffff);
 					break;
 				case 4:	//出暂存区
 					Move_TO_jianzhi2(9000, 4335);
@@ -315,6 +325,9 @@ int main(void)
 					Move_Action_Nopid_Forward_Ctrl(1870, 1860);
 					HAL_UART_Transmit(&huart10, (uint8_t*) "我调完辣\n", sizeof("我调完辣\n") - 1,0xffff);
 					flag = 5;
+					HAL_UART_Transmit(&huart10, (uint8_t*) "flag = ", sizeof("flag = \n") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "5", sizeof("5") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "\n", sizeof("\n") - 1,0xffff);
 					break;
 				case 5:		//移动到粗加工�?       
 					Move_TO_cujiagongqu(10000);
@@ -323,32 +336,52 @@ int main(void)
 					// 将物料放置到第一�?
 //					put_Material_to_Circular_Rough_Processing_Area_frist(Frist_Run, Put_circular);
 					flag = 6;
+					HAL_UART_Transmit(&huart10, (uint8_t*) "flag = ", sizeof("flag = \n") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "6", sizeof("6") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "\n", sizeof("\n") - 1,0xffff);
 					break;
 				case 6:  //离开粗加工区，移到十字区
 					Move_TO_jianzhi3(9000, 4335);
-					Move_Action_Nopid_Left_Ctrl(170, 1860);
+					action_temp = Move_Action_Nopid_Left_Ctrl(170, 1860);
+					HAL_Delay(50);
+					while(action_temp == false)
+					{
+						HAL_Delay(10);
+						action_temp = Move_Action_Nopid_Left_Ctrl(170, 1860);
+					}
 					//TODO:在返回原料区之前，爪子首先要转过来正交于车身并且步进降到8600的位置，爪子张开，进行抓取物�?
-					Drop_Location_jiang(50, 50, 8600);
+//					Drop_Location_jiang(50, 50, 8600);
 					flag = 7;
+					HAL_UART_Transmit(&huart10, (uint8_t*) "flag = ", sizeof("flag = \n") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "7", sizeof("7") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "\n", sizeof("\n") - 1,0xffff);
 					break;
 				case 7:      //返回到原料区，进行第二次的抓�?
 					Move_TO_fanyuanliaoqu(4000);
-					while (1)
-					{
-						;
-					}
 //					Move_Action_Nopid_Left_Ctrl(150, 1450);      //ACTION����
 					//Second_Run_Frist_Grab_Wuliao();
 					flag = 8;
+					HAL_UART_Transmit(&huart10, (uint8_t*) "flag = ", sizeof("flag = \n") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "8", sizeof("8") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "\n", sizeof("\n") - 1,0xffff);
 					break;
 				case 8:  //第二次跑 离开原料�?,进入十字�?
 					Move_TO_jianzhi1(4500, 4335);
 					// 车身状�?�回滚为爪子向内的状�?
-					Roll_Status();
+//					Roll_Status();
 					HAL_Delay(50);
 					// 根据Action返回的坐标点进行校准
-					Move_Action_Nopid_Forward_Ctrl(160, 1070);
+					action_temp = Move_Action_Nopid_Forward_Ctrl(160, 1070);
+					HAL_Delay(50);
+					while(action_temp == false)
+					{
+						HAL_Delay(10);
+						action_temp = Move_Action_Nopid_Forward_Ctrl(160, 1070);
+					}
 					flag = 9;
+					HAL_UART_Transmit(&huart10, (uint8_t*) "flag = ", sizeof("flag = \n") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*)"9", sizeof("9") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "\n", sizeof("\n") - 1,0xffff);
 					break;
 				case 9:    //第二次跑，离�?十字区，到达暂存�?
 					Move_TO_zancunqu(22000, 4335);
@@ -358,30 +391,51 @@ int main(void)
 //					Grab_Material_to_Car_Staging_Area_frist(Second_Run);
 					HAL_Delay(yanshi);
 					flag = 10;
+					HAL_UART_Transmit(&huart10, (uint8_t*) "flag = ", sizeof("flag = \n") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "10", sizeof("10") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "\n", sizeof("\n") - 1,0xffff);
 					break;
 				case 10:    //离开暂存区，到达十字�?
 					Move_TO_jianzhi2(9000, 4335);
 					// 根据Action返回的坐标点进行校准     
 					Move_Action_Nopid_Forward_Ctrl(1870, 1860);
 					flag = 11;
+					HAL_UART_Transmit(&huart10, (uint8_t*) "flag = ", sizeof("flag = \n") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "11", sizeof("11") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "\n", sizeof("\n") - 1,0xffff);
 					break;
 				case 11:       //离开十字区，到达粗加工区
 					Move_TO_cujiagongqu(10000);
 //					put_Material_to_Circular_Rough_Processing_Area_frist(
 //					Second_Run, Put_Material);
 					//放完物料后，车身回归起始模样
-					Check_Status();
+//					Check_Status();
 					flag = 12;
+					HAL_UART_Transmit(&huart10, (uint8_t*) "flag = ", sizeof("flag = \n") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "12", sizeof("12") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "\n", sizeof("\n") - 1,0xffff);
 					break;
 				case 12:       //离开粗加工区，到十字�?
 					Move_TO_jianzhi3(9000, 4335);
 					// 根据Action返回的坐标点进行校准 
-					Move_Action_Nopid_Left_Ctrl(170, 1860);
+					action_temp = Move_Action_Nopid_Left_Ctrl(170, 1860);
+					HAL_Delay(50);
+					while(action_temp == false)
+					{
+						HAL_Delay(10);
+						action_temp = Move_Action_Nopid_Left_Ctrl(170, 1860);
+					}
 					flag = 13;
+					HAL_UART_Transmit(&huart10, (uint8_t*) "flag = ", sizeof("flag = \n") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "13", sizeof("13") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "\n", sizeof("\n") - 1,0xffff);
 					break;
 				case 13:      //直接回到启停�?
 					Move_TO_fanyuanliaoqu(22000);
 					flag = 14;
+					HAL_UART_Transmit(&huart10, (uint8_t*) "flag = ", sizeof("flag = \n") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "14", sizeof("14") - 1,0xffff);
+					HAL_UART_Transmit(&huart10, (uint8_t*) "\n", sizeof("\n") - 1,0xffff);
 					break;
 				default:
 					Move_Stop();
@@ -716,7 +770,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				Base_Data = false;
 				HAL_TIM_Base_Stop_IT(&htim12);
 				// 重置底层步进电机到位返回标志位为false
-
+				HAL_UART_Transmit(&huart10, (uint8_t*) "到位回读\n", sizeof("到位回读\n") - 1,0xffff);
 			}
 			// 如果升降步进电机到位返回标志位为true
 			// if (Top_Data == true) {

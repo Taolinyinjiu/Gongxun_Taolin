@@ -45,7 +45,8 @@ Hardware/Stability/Stability.o: ../Hardware/Stability/Stability.c \
  E:/STM32WorkSpace/Gongxun_Taolin/Hardware/Run/Run.h \
  E:/STM32WorkSpace/Gongxun_Taolin/Hardware/Location/Location.h \
  E:/STM32WorkSpace/Gongxun_Taolin/Hardware/Action/Action.h \
- ../Core/Inc/tim.h ../Hardware/Stability/Stability_sub.h
+ ../Core/Inc/tim.h ../Hardware/Stability/Stability_sub.h \
+ ../Core/Inc/bool.h
 ../Hardware/Stability/Stability.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 ../Core/Inc/stm32h7xx_hal_conf.h:
@@ -99,3 +100,4 @@ E:/STM32WorkSpace/Gongxun_Taolin/Hardware/Location/Location.h:
 E:/STM32WorkSpace/Gongxun_Taolin/Hardware/Action/Action.h:
 ../Core/Inc/tim.h:
 ../Hardware/Stability/Stability_sub.h:
+../Core/Inc/bool.h:

@@ -1,9 +1,9 @@
 ../Hardware/Stability/Stability.c:32:6:Manhattan	1
 ../Hardware/Stability/Stability.c:43:9:Check_Stability	6
-../Hardware/Stability/Stability.c:116:9:Check_Status	1
-../Hardware/Stability/Stability.c:132:9:Roll_Status	1
-../Hardware/Stability/Stability.c:149:9:put_Status	1
-../Hardware/Stability/Stability.c:162:9:FT_Servo_Zero	3
-../Hardware/Stability/Stability.c:172:9:FT_Servo_Orth	1
-../Hardware/Stability/Stability.c:179:9:FT_Servo_Put	8
-../Hardware/Stability/Stability.c:201:9:FT_Servo_Wait_Zero	3
+../Hardware/Stability/Stability.c:117:9:Check_Status	1
+../Hardware/Stability/Stability.c:133:9:Roll_Status	1
+../Hardware/Stability/Stability.c:150:9:put_Status	1
+../Hardware/Stability/Stability.c:163:9:FT_Servo_Zero	3
+../Hardware/Stability/Stability.c:173:9:FT_Servo_Orth	1
+../Hardware/Stability/Stability.c:180:9:FT_Servo_Put	8
+../Hardware/Stability/Stability.c:203:9:FT_Servo_Wait_Zero	3

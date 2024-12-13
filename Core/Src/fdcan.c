@@ -272,7 +272,7 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 	if (Call_Flag == true)
 	{
 //	底盘步进电机帧头
-		if (fdcan_RxHeader.Identifier / 256 == 2)
+		if (fdcan_RxHeader.Identifier / 256 == 3)
 		{
 			if (RxState == 0)
 			{

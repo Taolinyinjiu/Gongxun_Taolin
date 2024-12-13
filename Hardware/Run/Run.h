@@ -64,13 +64,15 @@ void put_location(float x_goal,float y_goal);
 
 
 
-void Move_Action_Nopid_Left_Ctrl(float x_goal,float y_goal);
+//void Move_Action_Nopid_Left_Ctrl(float x_goal,float y_goal);
+bool Move_Action_Nopid_Left_Ctrl(float x_goal, float y_goal);
 //void Move_Action_Nopid_Forward_Ctrl(float x_goal, float y_goal);
 bool Move_Action_Nopid_Forward_Ctrl(float x_goal, float y_goal);
 void Move_Action_Nopid_Right_Ctrl(float x_goal, float y_goal);
 
 //TX调整
-void Move_Tx_Pid_Ctrl(float TX_X_Goal,float TX_Y_Goal);
+//void Move_Tx_Pid_Ctrl(float TX_X_Goal,float TX_Y_Goal);
+bool Move_Tx_Pid_Ctrl(float TX_X_Goal, float TX_Y_Goal);
 void Move_Tx_NO_Pid_Ctrl(float x2,float y2);
 void Move_Tx_Val_Ctrl(float* tx_target,float* ty_target,float x1,float y1);
 

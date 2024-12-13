@@ -8,7 +8,7 @@
 #include "Stability.h"
 #include "Stability_sub.h"
 #include <math.h>
-
+#include "bool.h"
 // // 计算平均值
 // double calculate_mean(double data[], int n) {
 //     double sum = 0.0;
@@ -77,6 +77,7 @@ uint8_t Check_Stability(float check_x,float check_y,uint8_t Check_flag)
 	{
 		return 1;
 	}
+}
 	
 //	不满足计算稳定性的条件，清空缓冲区并结束
 	// if(Check_flag != 1)
@@ -105,7 +106,7 @@ uint8_t Check_Stability(float check_x,float check_y,uint8_t Check_flag)
 // 	}
 // 	else
 // 		return 2;
-}
+
 
 // 检查当前车身状态
 /*
@@ -182,7 +183,8 @@ uint8_t FT_Servo_Put(uint8_t Servo_ID, uint8_t Pub_Number)
 	{
 		switch (Pub_Number)
 		{
-			case 1:WritePosEx(0, 1180, 0, 0);break;
+//			case 1:WritePosEx(0, 1180, 0, 0);break;
+			case 1:WritePosEx(0, 1135, 0, 0);break;
 			case 2:WritePosEx(0, 2245, 0, 0);break;
 			case 3:WritePosEx(0, 3292, 0, 0);break;
 		}

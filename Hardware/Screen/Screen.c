@@ -26,7 +26,7 @@ uint8_t System_Flag = 0;
 uint8_t Joy_Flag = 0;
 uint8_t Ready_Flag = 0;
 // 接收二维码数据
-//extern char QR_data[6];	//123+321+'\0'
+extern char QR_data[6];	//123+321+'\0'
 // 接收点位数据
 //extern char RxBuffer[RXBUFFERSIZE];
 extern float x;
@@ -56,25 +56,21 @@ void Action_Show(void) {
 	HAL_UART_Transmit(&huart4, (uint8_t*) "\"\xff\xff\xff",
 			sizeof("\"\xff\xff\xff") - 1, 0xffff);
 }
-extern int QR_data[6];
+//extern int QR_data[6];
 void QR_Show(void) {
-	for (int i = 0; i < 6; i++) {
-		sprintf(&Y_pid[i], "%d", QR_data[i]);
-	}
-	HAL_UART_Transmit(&huart4, (uint8_t*) "QR.txt=\"", sizeof("QR.txt=\"") - 1,
-			0xffff);
-	HAL_UART_Transmit(&huart4, (uint8_t*) Y_pid, sizeof(Y_pid) - 1, 0xffff);
-	HAL_UART_Transmit(&huart4, (uint8_t*) "\"\xff\xff\xff",
-			sizeof("\"\xff\xff\xff") - 1, 0xffff);
+//	for (int i = 0; i < 6; i++) {
+//		sprintf(&Y_pid[i], "%d", QR_data[i]);
+//	}
+//	HAL_UART_Transmit(&huart4, (uint8_t*) "QR.txt=\"", sizeof("QR.txt=\"") - 1,
+//			0xffff);
+//	HAL_UART_Transmit(&huart4, (uint8_t*) Y_pid, sizeof(Y_pid) - 1, 0xffff);
+//	HAL_UART_Transmit(&huart4, (uint8_t*) "\"\xff\xff\xff",
+//			sizeof("\"\xff\xff\xff") - 1, 0xffff);
 //	HAL_Delay(20);
 
-	/*
-	 HAL_UART_Transmit(&huart4, (uint8_t*) "QR.txt=\"", sizeof("QR.txt=\"") - 1,
-	 0xffff);
+	 HAL_UART_Transmit(&huart4, (uint8_t*) "QR.txt=\"", sizeof("QR.txt=\"") - 1, 0xffff);
 	 HAL_UART_Transmit(&huart4, (uint8_t*) QR_data, sizeof(QR_data) - 1, 0xffff);
-	 HAL_UART_Transmit(&huart4, (uint8_t*) "\"\xff\xff\xff",
-	 sizeof("\"\xff\xff\xff") - 1, 0xffff);
-	 */
+	 HAL_UART_Transmit(&huart4, (uint8_t*) "\"\xff\xff\xff", sizeof("\"\xff\xff\xff") - 1, 0xffff);
 
 }
 //extern float x;
@@ -130,11 +126,11 @@ void Point_Show(void) {
 	sprintf(TX2_Color, "%d", flag);
 //	开始发送一帧点位数据
 	HAL_UART_Transmit(&huart4, (uint8_t*) "Point.txt=\"",sizeof("Point.txt=\"") - 1, 0xffff);
-	if(Choke_Flag == true)
-		HAL_UART_Transmit(&huart4, (uint8_t*) "true", sizeof("true") - 2, 0xffff);
-	else
-		HAL_UART_Transmit(&huart4, (uint8_t*) "false", sizeof("false") - 2, 0xffff);
-//	HAL_UART_Transmit(&huart4, (uint8_t*) TX2_X_Point, sizeof(TX2_X_Point) - 2, 0xffff);
+//	if(Choke_Flag == true)
+//		HAL_UART_Transmit(&huart4, (uint8_t*) "true", sizeof("true") - 2, 0xffff);
+//	else
+//		HAL_UART_Transmit(&huart4, (uint8_t*) "false", sizeof("false") - 2, 0xffff);
+	HAL_UART_Transmit(&huart4, (uint8_t*) TX2_X_Point, sizeof(TX2_X_Point) - 2, 0xffff);
 	HAL_UART_Transmit(&huart4, (uint8_t*) "+", sizeof("+")-2, 0xffff);
 	HAL_UART_Transmit(&huart4, (uint8_t*) TX2_Y_Point, sizeof(TX2_Y_Point) - 1, 0xffff);
 //	结束发送一帧点位数据

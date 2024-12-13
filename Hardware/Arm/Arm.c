@@ -119,20 +119,20 @@ void Start(void) //下降14000
 	}
 	HAL_UART_Transmit(&huart10, (uint8_t*) "确认接收\n", sizeof("确认接收\n") - 1,0xffff);
 	//	先将爪子升起来，避免打到TX2或者物料盘
-	Drop_Location_jiang(320, 160, 4000);
+//	Drop_Location_jiang(320, 160, 4000);
 	//	将舵机向外转动
-	FT_Servo_Orth();
-	Move_Arm(1, 500, 300); //爪子张开
-	Move_Arm(6, 500, 300);
-	Drop_Location_jiang(320, 160, 11000);
+//	FT_Servo_Orth();
+//	Move_Arm(1, 500, 300); //爪子张开
+//	Move_Arm(6, 500, 300);
+//	Drop_Location_jiang(320, 160, 11000);
 	// 向前移动到扫码区域
-	while (QR_Flag == false)
-	{
-		;  //等待扫码完成
-	}
+//	while (QR_Flag == false)
+//	{
+//		;  //等待扫码完成
+//	}
 	// 扫码完成后将爪子提起来
-	Move_Arm(6, 900, 300);
-	Drop_Location_jiang(320, 160, 8600);
+//	Move_Arm(6, 900, 300);
+//	Drop_Location_jiang(320, 160, 8600);
 	
 }
 void put(uint16_t Pos1, uint16_t Pos2) {
@@ -219,7 +219,14 @@ void Frist_Grab_Wuliao(void) {
 //	}
 	//	Realize_Stop();
 	//	基于TX2坐标进行闭环
-	Move_Tx_Pid_Ctrl(tx_target, ty_target);
+		bool TX_Flag = Move_Tx_Pid_Ctrl(tx_target, ty_target);
+		HAL_Delay(50);
+		while(TX_Flag == false)
+		{
+			HAL_Delay(50);
+			TX_Flag = Move_Tx_Pid_Ctrl(tx_target, ty_target);
+
+		}
 	}
 	else
 		HAL_Delay(100);
